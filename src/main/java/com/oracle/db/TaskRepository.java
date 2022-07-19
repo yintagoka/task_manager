@@ -32,26 +32,28 @@ public class TaskRepository {
         tasks.put(task4.getId(), task4);
     }
     /**
-     * Read all
-     * @return
+     * Read all data.
+     * @return all the available tasks.
      */
     public static List<Task> getTasks() {
         return new ArrayList<>(tasks.values());
     }
 
     /**
-     * Read
+     * Get 1 specific task.
      * @param id
-     * @return
+     * @return task that correspond to the requested id.
      */
     public static Optional<Task> getTask(Long id) {
         return Optional.ofNullable(tasks.get(id));
     }
 
     /**
-     * Create / Update
+     * Create / Update task.
+     * Create if there's no id in the task.
+     * Update if there's id in the task.
      * @param task
-     * @return
+     * @return the newly created/updated task.
      */
     public static Optional<Task> saveTask(Task task) {
         if (task.getId() == null) {
@@ -63,10 +65,19 @@ public class TaskRepository {
         return Optional.of(task);
     }
 
+    /**
+     * Remove task that correspond to the requested id.
+     * @param id
+     * @return the removed task.
+     */
     public static Task deleteTask(Long id) {
         return tasks.remove(id);
     }
 
+    /**
+     * Get maximum id of all the tasks that are available.
+     * @return maximum id.
+     */
     public static Long getMaxId() {
         return Collections.max(tasks.keySet());
     }
