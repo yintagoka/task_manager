@@ -8,18 +8,13 @@ import com.codahale.metrics.health.HealthCheck;
  * @since 19 Jul 2022
  */
 public class TaskHelathCheck extends HealthCheck {
-    private final String template;
-
-    public TaskHelathCheck(String template) {
-        this.template = template;
-    }
 
     @Override
     protected Result check() throws Exception {
-        final String title = String.format(template, "TEST");
-        if (!title.contains("TEST")) {
-            return Result.unhealthy("Template doesn't include title");
-        }
+//        final String title = String.format(template, "TEST");
+//        if (!title.contains("TEST")) {
+//            return Result.unhealthy("Template doesn't include title");
+//        }
         return Result.healthy();
     }
 }

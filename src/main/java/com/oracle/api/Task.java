@@ -27,6 +27,7 @@ public class Task {
         this.isCompleted = isCompleted;
     }
 
+
     @JsonProperty
     public Long getId() {
         return id;
@@ -42,5 +43,13 @@ public class Task {
     @JsonProperty
     public boolean isCompleted() {
         return isCompleted;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setCreated(Instant created) {
+        this.created = created;
     }
 }

@@ -25,11 +25,8 @@ public class TaskManagerApplication extends Application<TaskManagerConfiguration
     @Override
     public void run(final TaskManagerConfiguration configuration,
                     final Environment environment) {
-        final TaskResource resource = new TaskResource(
-                configuration.getTemplate(),
-                configuration.getDefaultName()
-        );
-        final TaskHelathCheck healthCheck = new TaskHelathCheck(configuration.getTemplate());
+        final TaskResource resource = new TaskResource();
+        final TaskHelathCheck healthCheck = new TaskHelathCheck();
         environment.healthChecks().register("task", healthCheck);
         environment.jersey().register(resource);
     }

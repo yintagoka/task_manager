@@ -4,15 +4,16 @@ import com.codahale.metrics.annotation.Timed;
 import com.oracle.api.Task;
 import com.oracle.db.TaskRepository;
 
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.time.Instant;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * @author Roy Krisnadi
@@ -22,25 +23,51 @@ import java.util.concurrent.atomic.AtomicLong;
 @Path("/task")
 @Produces(MediaType.APPLICATION_JSON)
 public class TaskResource {
-    private final String template;
-    private final String defaultName;
-    private final AtomicLong counter;
-
-    public TaskResource(String template, String defaultName) {
-        this.template = template;
-        this.defaultName = defaultName;
-        this.counter = new AtomicLong();
-    }
 
     @GET
     @Timed
     public Response getTasks() {
-        return Response.ok()(TaskRepository.)
+        return Response.ok(TaskRepository.getTasks()).build();
     }
+
     @GET
+    @Path("/{id}")
     @Timed
-    public Task sayHello(@QueryParam("title") Optional<String> title) {
-        final String value = String.format(template, title.orElse(defaultName));
-        return new Task(counter.incrementAndGet(), value, Instant.now(), false);
+    public Response getTask(@PathParam("id") Long id) {
+        Optional<Task> optionalTask = TaskRepository.getTask(id);
+        if (optionalTask.isEmpty()) {
+            Response.status(Response.Status.NOT_FOUND).build();
+        }
+        return Response.ok(optionalTask.get()).build();
     }
+
+    @POST
+    public Response createTask(Task task) {
+        Optional<Task> optionalTask = TaskRepository.getTask(task.getId());
+        if (optionalTask.isPresent()) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Task already existed.").build();
+        }
+        return Response.ok(TaskRepository.saveTask(task)).build();
+    }
+
+    @PUT
+    @Path("/{id}")
+    public Response updateTask(@PathParam("id") Long id, Task task) {
+        Optional<Task> optionalTask = TaskRepository.getTask(id);
+        if (optionalTask.isEmpty()) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Task does not exist.").build();
+        }
+        return Response.ok(TaskRepository.saveTask(task)).build();
+    }
+
+    @DELETE
+    @Path("/{id}")
+    public Response removeTask(@PathParam("id") Long id) {
+        Optional<Task> optionalTask = TaskRepository.getTask(id);
+        if (optionalTask.isEmpty()) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Task does not exist.").build();
+        }
+        return Response.ok(TaskRepository.deleteTask(id)).build();
+    }
+
 }
