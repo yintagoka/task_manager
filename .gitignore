@@ -16,3 +16,7 @@
 
 target
 .idea
+
+
+# Generated POM
+dependency-reduced-pom.xml
