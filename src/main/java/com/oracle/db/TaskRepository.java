@@ -2,9 +2,9 @@ package com.oracle.db;
 
 import com.oracle.api.Task;
 
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,10 +22,10 @@ public class TaskRepository {
     private static Task task3;
     private static Task task4;
     static {
-        task1 = new Task(1L, "First Task", Instant.now(), false);
-        task2 = new Task(2L, "Second Task", Instant.now(), false);
-        task3 = new Task(3L, "Third Task", Instant.now(), false);
-        task4 = new Task(4L, "Fourth Task", Instant.now(), false);
+        task1 = new Task(1L, "First Task", new Date(), false);
+        task2 = new Task(2L, "Second Task", new Date(), false);
+        task3 = new Task(3L, "Third Task", new Date(), false);
+        task4 = new Task(4L, "Fourth Task", new Date(), false);
         tasks.put(task1.getId(), task1);
         tasks.put(task2.getId(), task2);
         tasks.put(task3.getId(), task3);
@@ -59,7 +59,7 @@ public class TaskRepository {
         if (task.getId() == null) {
             // created
             task.setId(getMaxId()+1);
-            task.setCreated(Instant.now());
+            task.setCreated(new Date());
         }
         tasks.put(task.getId(), task);
         return Optional.of(task);

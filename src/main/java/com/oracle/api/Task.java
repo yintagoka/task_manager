@@ -2,7 +2,7 @@ package com.oracle.api;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.time.Instant;
+import java.util.Date;
 
 /**
  * @author Roy Krisnadi
@@ -13,18 +13,18 @@ import java.time.Instant;
 public class Task {
     private Long id;
     private String title;
-    private Instant created;
-    private boolean isCompleted;
+    private Date created;
+    private boolean completed;
 
     public Task() {
 
     }
 
-    public Task(Long id, String title, Instant created, boolean isCompleted) {
+    public Task(Long id, String title, Date created, boolean completed) {
         this.id = id;
         this.title = title;
         this.created = created;
-        this.isCompleted = isCompleted;
+        this.completed = completed;
     }
 
 
@@ -37,19 +37,19 @@ public class Task {
         return title;
     }
     @JsonProperty
-    public Instant getCreated() {
+    public Date getCreated() {
         return created;
     }
     @JsonProperty
     public boolean isCompleted() {
-        return isCompleted;
+        return completed;
     }
 
     public void setId(Long id) {
         this.id = id;
     }
 
-    public void setCreated(Instant created) {
+    public void setCreated(Date created) {
         this.created = created;
     }
 }
