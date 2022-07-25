@@ -6,5 +6,7 @@ COPY mvnw pom.xml ./
 RUN ./mvnw dependency:go-offline -Dsilent=true || true
 COPY src ./src
 RUN ./mvnw clean package
+EXPOSE 8080
+EXPOSE 8081  
 CMD ["java","-jar","./target/task_manager-1.0-SNAPSHOT.jar", "server"]
 # CMD tail -f /dev/null
